@@ -8,7 +8,6 @@ routes = web.RouteTableDef()
 @routes.post('/api/v1/token/create')
 async def authenticate(request: web.Request) -> web.json_response:
     ap = await request.json()
-    #ap = json.loads(apj)
     if (ap['client_id'] is None or
             ap['client_secret'] is None or
             ap['code'] is None or
