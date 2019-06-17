@@ -15,7 +15,7 @@ async def authenticate(request: web.Request) -> web.json_response:
             ap['redirect_uri'] is None or
             ap['grant_type'] is None
     ):
-        raise ValueError(f'One or more arguments is does not exist: {apj}')
+        raise ValueError(f'One or more arguments is does not exist: {ap}')
 
     auth_response = await authenticate_client(
         AuthTokenRequestPayload(
@@ -38,7 +38,7 @@ async def refresh(request: web.Request) -> web.json_response:
             ref_pd['refresh_token'] is None or
             ref_pd['grant_type'] is None
     ):
-        raise ValueError(f'One or more arguments is does not exist: {apj}')
+        raise ValueError(f'One or more arguments is does not exist: {ref_pd}')
 
     refresh_token_response = await refresh_auth_token(
         AuthTokenRefreshPayload(
