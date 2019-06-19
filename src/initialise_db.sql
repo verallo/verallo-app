@@ -21,14 +21,14 @@ CREATE TABLE IF NOT EXISTS authentication.client (
 
 CREATE TABLE IF NOT EXISTS authentication.account (
     account_uid     UUID           NOT NULL    PRIMARY KEY,
-    client_uid      UUID           NOT NULL,
+    client_uid      UUID           NOT NULL    REFERENCES client( client_uid ),
     access_token    varchar( 254 ) NOT NULL,
     refresh_token   varchar( 128 ) NOT NULL
 );
 
 -- create user ---------------------------------------------------------------------
 
-CREATE ROLE 'true_layer_app' WITH LOGIN PASSWORD 'true_layer_app' SUPERUSER CREATEDB;
+CREATE ROLE 'true_layer_app' WITH SUPERUSER CREATEDB LOGIN PASSWORD 'true_layer_app';
 
 -- grant usage of schema to user ---------------------------------------------------
 
