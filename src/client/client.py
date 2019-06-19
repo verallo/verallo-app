@@ -1,5 +1,4 @@
 import aiohttp
-from aiohttp import web
 
 
 async def post(url: str, payload: dict) -> (int, str):
@@ -10,8 +9,10 @@ async def post(url: str, payload: dict) -> (int, str):
             return status, content
 
 
-async def get(url: str) -> web.json_response:
+async def get(url: str) -> (int, str):
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as resp:
             content = await resp.read()
-            return content
+            status = resp.status
+            return status, content
+
