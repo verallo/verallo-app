@@ -1,6 +1,18 @@
--- create table scheama ------------------------------------------------------------
+-- create database -----------------------------------------------------------------
+
+CREATE DATABASE auth_app;
+
+-- connect to the database ---------------------------------------------------------
+
+\connect auth_app;
+
+-- create table schema ------------------------------------------------------------
 
 CREATE SCHEMA authentication;
+
+-- set search path to the schema
+
+set search_path TO authentication;
 
 -- create app credentials table ----------------------------------------------------
 
@@ -28,16 +40,16 @@ CREATE TABLE IF NOT EXISTS authentication.account (
 
 -- create user ---------------------------------------------------------------------
 
-CREATE ROLE 'true_layer_app' WITH SUPERUSER CREATEDB LOGIN PASSWORD 'true_layer_app';
+CREATE ROLE true_layer_app WITH SUPERUSER CREATEDB LOGIN PASSWORD 'true_layer_app';;
 
 -- grant usage of schema to user ---------------------------------------------------
 
-GRANT USAGE ON SCHEMA authentication TO 'true_layer_app';
+GRANT USAGE ON SCHEMA authentication TO true_layer_app;
 
 -- grant usage on the tables to 'true_layer_app' -----------------------------------
 
-GRANT ALL PRIVILEGES ON TABLE authentication.app TO 'true_layer_app';
+GRANT ALL PRIVILEGES ON TABLE authentication.app TO true_layer_app;
 
-GRANT ALL PRIVILEGES ON TABLE authentication.client TO 'true_layer_app';
+GRANT ALL PRIVILEGES ON TABLE authentication.client TO true_layer_app;
 
-GRANT ALL PRIVILEGES ON TABLE authentication.account TO 'true_layer_app';
+GRANT ALL PRIVILEGES ON TABLE authentication.account TO true_layer_app;

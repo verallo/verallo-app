@@ -1,4 +1,5 @@
 from aiohttp import web
+import asyncpg
 from src.service.auth import authenticate_client, refresh_auth_token
 from src.model.token import AuthTokenRequestPayload, AuthTokenRefreshPayload
 
@@ -49,6 +50,11 @@ async def refresh(request: web.Request) -> web.json_response:
         )
     )
     return web.json_response(refresh_token_response.__dict__)
+
+
+async def init_connection_pool(app: web.Application) -> web.Application:
+    app['pool'] = await asyncpg.create_pool(database='postgres', user='postgres')
+    return app
 
 
 app = web.Application()
