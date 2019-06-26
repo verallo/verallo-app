@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS authentication.account (
 
 -- create user ---------------------------------------------------------------------
 
-CREATE ROLE true_layer_app WITH SUPERUSER CREATEDB LOGIN PASSWORD 'true_layer_app';;
+CREATE ROLE true_layer_app WITH SUPERUSER CREATEDB LOGIN PASSWORD 'true_layer_app';
 
 -- grant usage of schema to user ---------------------------------------------------
 
@@ -53,3 +53,5 @@ GRANT ALL PRIVILEGES ON TABLE authentication.app TO true_layer_app;
 GRANT ALL PRIVILEGES ON TABLE authentication.client TO true_layer_app;
 
 GRANT ALL PRIVILEGES ON TABLE authentication.account TO true_layer_app;
+
+------------------------------------------------------------------------------------
