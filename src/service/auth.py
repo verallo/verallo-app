@@ -1,17 +1,38 @@
-from src.model.token import AuthTokenResponsePayload, AuthTokenRefreshPayload
-from src.client.client import post
+from src.model.token import AuthTokenResponsePayload, AuthTokenRefreshPayload, AuthTokenRequestPayload
+from src.client.client_api import post
 from src.repository.auth_repository import create_new_client, save_client_access_token, select, \
     select_tokens_to_refresh, update_client_token
-import json
 import uuid
 
 auth_url = 'https://auth.truelayer.com/connect/token'
 
 
-async def authenticate_client(client) -> AuthTokenResponsePayload:
+async def create_and_authenticate_client(client: AuthTokenRequestPayload) -> AuthTokenResponsePayload:
     # record the new client in the database
     client_uid = uuid.uuid4()
     await create_new_client(client_uid, 'ACTIVE')
+    # send a request to true  layer
+    response_payload = await post(auth_url, client.__dict__)
+    auth_token_response_payload = AuthTokenResponsePayload(
+        response_payload['access_token'],
+        response_payload['expires_in'],
+        response_payload['token_type'],
+        response_payload['refresh_token'],
+    )
+    account_uid = uuid.uuid4()
+    # save the access token in db
+    await save_client_access_token(
+        account_uid,
+        client_uid,
+        auth_token_response_payload.access_token,
+        auth_token_response_payload.refresh_token
+    )
+    return auth_token_response_payload
+
+
+async def add_new_account_to_existing_client_and_authenticate(
+        client: AuthTokenRequestPayload, client_uid: uuid.uuid4) -> AuthTokenResponsePayload:
+    # TODO: check that the client exist first
     # send a request to true  layer
     response_payload = await post(auth_url, client.__dict__)
     auth_token_response_payload = AuthTokenResponsePayload(

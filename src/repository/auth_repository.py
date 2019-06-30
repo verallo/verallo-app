@@ -44,9 +44,18 @@ async def select_tokens_to_refresh(account_uid: uuid.uuid4) -> list:
         account_uid)
 
 
-async def update_client_token(account_id: uuid.uuid4, token: AuthTokenResponsePayload) -> None:
+async def select_auth_token(account_uid: uuid.uuid4) -> list:
+    return await select(
+        """ SELECT access_token FROM authentication.account WHERE account_uid = $1 """, account_uid)
+
+
+async def update_client_token(account_uid: uuid.uuid4, token: AuthTokenResponsePayload) -> None:
     await execute(""" UPDATE authentication.account SET access_token = $1, refresh_token = $2 WHERE account_uid = $3 """,
-                  token.access_token, token.refresh_token, account_id)
+                  token.access_token, token.refresh_token, account_uid)
+
+
+async def select_all_client_accounts(client_uid: uuid.uuid4) -> list:
+    return await select(""" SELECT account_uid FROM authentication.account WHERE client_uid = $1 """, client_uid)
 
 
 async def select(query, *args) -> list:

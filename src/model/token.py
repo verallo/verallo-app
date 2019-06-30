@@ -1,7 +1,7 @@
 from attr import dataclass
 
 
-@dataclass
+@dataclass(frozen=True)
 class AuthTokenRequestPayload:
     client_secret: str
     code: str
@@ -10,7 +10,7 @@ class AuthTokenRequestPayload:
     redirect_uri: str = 'https://console.truelayer.com/redirect-page'
 
 
-@dataclass
+@dataclass(frozen=True)
 class AuthTokenResponsePayload:
     access_token: str
     expires_in: int
@@ -18,7 +18,7 @@ class AuthTokenResponsePayload:
     refresh_token: str
 
 
-@dataclass
+@dataclass(frozen=True)
 class AuthTokenRefreshPayload:
     refresh_token: str
     client_secret: str = '5938fed7-afc3-40ad-80a4-f3fe38865d7c'

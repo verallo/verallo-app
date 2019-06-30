@@ -4,7 +4,7 @@ import aiohttp
 
 async def post(url: str, payload: dict) -> (int, str):
     async with aiohttp.ClientSession() as session:
-        async with session.post(url, data=payload) as resp:
+        async with session.post(url=url, data=payload) as resp:
             content = await resp.read()
             status = resp.status
             if 200 <= status < 300:
@@ -13,9 +13,9 @@ async def post(url: str, payload: dict) -> (int, str):
                 raise Exception(f"POST Request failed. status code: {status}, payload content: {content}")
 
 
-async def get(url: str) -> dict:
+async def get(url: str, headers: dict) -> dict:
     async with aiohttp.ClientSession() as session:
-        async with session.get(url) as resp:
+        async with session.get(url=url, headers=headers) as resp:
             content = await resp.read()
             status = resp.status
             if 200 <= status < 300:
