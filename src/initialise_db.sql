@@ -34,8 +34,8 @@ CREATE TABLE IF NOT EXISTS authentication.client (
 CREATE TABLE IF NOT EXISTS authentication.account (
     account_uid     UUID           NOT NULL    PRIMARY KEY,
     client_uid      UUID           NOT NULL    REFERENCES client( client_uid ),
-    access_token    varchar( 254 ) NOT NULL,
-    refresh_token   varchar( 128 ) NOT NULL
+    access_token    varchar( 2044 ) NOT NULL,
+    refresh_token   varchar( 2044 ) NOT NULL
 );
 
 -- create user ---------------------------------------------------------------------
