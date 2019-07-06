@@ -1,5 +1,6 @@
 from aiohttp import web
-from src.service.accounts import bank_account_data, bank_account_data_from_all_sources
+from src.service.accounts import bank_account_data, bank_account_data_from_all_sources, balance_from_one_bank, \
+    balance_from_all_banks
 
 routes = web.RouteTableDef()
 
