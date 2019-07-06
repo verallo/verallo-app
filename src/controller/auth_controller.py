@@ -9,20 +9,18 @@ routes = web.RouteTableDef()
 @routes.post('/api/v1/token/create')
 async def authenticate(request: web.Request) -> web.json_response:
     auth_request = await request.json()
-    if auth_request['client_secret'] is None or auth_request['code'] is None:
+    if auth_request['code'] is None:
         raise ValueError(f'One or more arguments do not exist. auth_request: {auth_request}')
-    auth_response = await create_and_authenticate_client(
-        AuthTokenRequestPayload(auth_request['client_secret'], auth_request['code']))
+    auth_response = await create_and_authenticate_client(auth_request)
     return web.json_response(auth_response.__dict__)
 
 
 @routes.post('/api/v1/token/add')
 async def add(request: web.Request) -> web.json_response:
     auth_request = await request.json()
-    if auth_request['client_secret'] is None or auth_request['code'] is None or auth_request['client_uid'] is None:
+    if auth_request['code'] is None or auth_request['client_uid'] is None:
         raise ValueError(f'One or more arguments do not exist. auth_request: {auth_request}')
-    auth_response = await add_new_account_to_existing_client_and_authenticate(
-        AuthTokenRequestPayload(auth_request['client_secret'], auth_request['code']), auth_request['client_uid'])
+    auth_response = await add_new_account_to_existing_client_and_authenticate(auth_request)
     return web.json_response(auth_response.__dict__)
 
 

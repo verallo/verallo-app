@@ -54,4 +54,8 @@ GRANT ALL PRIVILEGES ON TABLE authentication.client TO true_layer_app;
 
 GRANT ALL PRIVILEGES ON TABLE authentication.account TO true_layer_app;
 
+-- insert the app credentials ------------------------------------------------------
+
+INSERT INTO authentication.app (app_uid, client_id, client_secret) VALUES ('f3235a6e-1140-4c14-8350-aad2be7aee18', 'meowmeowcat-041410', '5938fed7-afc3-40ad-80a4-f3fe38865d7c');
+
 ------------------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 import asyncpg
 import uuid
 
-from src.model.token import AuthTokenResponsePayload
+from src.model.token import AuthTokenResponsePayload, AppCredentials
 
 
 async def create_connection_pool():
@@ -58,6 +58,13 @@ async def select_all_client_accounts(client_uid: uuid.uuid4) -> list:
     return await select(""" SELECT account_uid FROM authentication.account WHERE client_uid = $1 """, client_uid)
 
 
+async def select_app_credentials() -> AppCredentials:
+    db_records = await select(""" SELECT client_id, client_secret FROM authentication.app 
+    WHERE app_uid = 'f3235a6e-1140-4c14-8350-aad2be7aee18' """)
+    record = db_records[0]
+    return AppCredentials(record['client_id'], record['client_secret'])
+
+
 async def select(query, *args) -> list:
     connection = await create_connection()
     result = await connection.fetch(query, *args)
@@ -69,4 +76,3 @@ async def execute(query, *args) -> None:
     connection = await create_connection()
     await connection.execute(query, *args)
     await connection.close()
-

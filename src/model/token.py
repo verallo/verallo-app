@@ -3,10 +3,10 @@ from attr import dataclass
 
 @dataclass(frozen=True)
 class AuthTokenRequestPayload:
+    client_id: str
     client_secret: str
     code: str
     grant_type: str = 'authorization_code'
-    client_id: str = 'meowmeowcat-041410'
     redirect_uri: str = 'https://console.truelayer.com/redirect-page'
 
 
@@ -20,7 +20,13 @@ class AuthTokenResponsePayload:
 
 @dataclass(frozen=True)
 class AuthTokenRefreshPayload:
+    client_id: str
+    client_secret: str
     refresh_token: str
-    client_secret: str = '5938fed7-afc3-40ad-80a4-f3fe38865d7c'
-    client_id: str = 'meowmeowcat-041410'
     grant_type: str = 'refresh_token'
+
+
+@dataclass(frozen=True)
+class AppCredentials:
+    client_id: str
+    client_secret: str
