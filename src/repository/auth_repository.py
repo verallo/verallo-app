@@ -22,20 +22,14 @@ async def create_connection() -> asyncpg.Connection:
 
 
 async def create_new_client(client_uid: uuid.uuid4, client_status: str) -> None:
-    connection = await create_connection()
-    await connection.execute(
-        """ INSERT INTO authentication.client(client_uid, client_status) VALUES ($1, $2); """,
-        client_uid, client_status)
-    await connection.close()
+    await execute(""" INSERT INTO authentication.client(client_uid, client_status) VALUES ($1, $2); """,
+                  client_uid, client_status)
 
 
 async def save_client_access_token(account_uid: uuid.uuid4, client_id: uuid.uuid4, access_token: str,
                                    refresh_token: str) -> None:
-    connection = await create_connection()
-    await connection.execute(
-        """ INSERT INTO authentication.account(account_uid, client_uid, access_token, refresh_token) 
+    await execute(""" INSERT INTO authentication.account(account_uid, client_uid, access_token, refresh_token) 
         VALUES ($1, $2, $3, $4)""", account_uid, client_id, access_token, refresh_token)
-    await connection.close()
 
 
 async def select_tokens_to_refresh(account_uid: uuid.uuid4) -> list:
