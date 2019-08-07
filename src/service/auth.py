@@ -65,7 +65,7 @@ async def refresh_auth_token(account_id: uuid.uuid4) -> AuthTokenResponsePayload
     app_credentials = await select_app_credentials()
     db_token = db_tokens.pop(0)  # get first element from the list
     if db_token is None:
-        raise ValueError('cant update non existing token')
+        raise TypeError('cant update non existing token')
 
     auth_refresh_token_payload = AuthTokenRefreshPayload(
         app_credentials.client_id, app_credentials.client_secret, db_token['refresh_token'])

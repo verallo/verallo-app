@@ -15,7 +15,7 @@ async def transactions_from_one_bank(account_uid: uuid.uuid4) -> dict:
     #  TODO: get the token again (this is shitty) deal with it later
     db_records = await select_auth_token(account_uid)
     if db_records is None:
-        raise Exception(f'auth token for account {account_uid} does not exist')
+        raise TypeError(f'auth token for account {account_uid} does not exist')
     token = db_records[0]['access_token']
     tasks = [get(url=f'{accounts_endpoint}/{account["account_id"]}/transactions',
                  headers={'Authorization': f'Bearer {token}'})

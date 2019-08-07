@@ -13,7 +13,7 @@ async def bank_account_data(account_uid: uuid.uuid4) -> dict:
     # get data from db
     db_records = await select_auth_token(account_uid)
     if db_records is None:
-        raise Exception(f'auth token for account {account_uid} does not exist')
+        raise TypeError(f'auth token for account {account_uid} does not exist')
     token = db_records[0]['access_token']
     # get the account data
     results_dict = await get(url=accounts_endpoint, headers={'Authorization': f'Bearer {token}'})
