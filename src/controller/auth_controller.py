@@ -24,7 +24,7 @@ async def add(request: web.Request) -> web.json_response:
     logging.info("adding new account to the existing client")
     auth_request = await request.json()
     if auth_request.get('code', None) is None or auth_request.get('client_uid', None) is None:
-        logging.info(f'One or more arguments do not exist. auth_request: {auth_request}')
+        logging.error(f'One or more arguments do not exist. auth_request: {auth_request}')
         raise ValueError(f'One or more arguments do not exist. auth_request: {auth_request}')
     auth_response = await add_new_account_to_existing_client_and_authenticate(auth_request)
     return web.json_response(auth_response.__dict__)

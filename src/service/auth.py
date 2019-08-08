@@ -1,3 +1,5 @@
+import logging
+
 from src.model.token import AuthTokenResponsePayload, AuthTokenRefreshPayload, AuthTokenRequestPayload, AppCredentials
 from src.client.client_api import post
 from src.repository.auth_repository import create_new_client, save_client_access_token, \
@@ -55,8 +57,8 @@ async def add_new_account_to_existing_client_and_authenticate(request_payload: d
             auth_token_response_payload.refresh_token
         )
     else:
-        raise ValueError("selected client_uid does not exist in the system")
-
+        logging.error('selected client_uid does not exist in the system')
+        raise ValueError('selected client_uid does not exist in the system')
     return auth_token_response_payload
 
 
@@ -65,7 +67,8 @@ async def refresh_auth_token(account_id: uuid.uuid4) -> AuthTokenResponsePayload
     app_credentials = await select_app_credentials()
     db_token = db_tokens.pop(0)  # get first element from the list
     if db_token is None:
-        raise TypeError('cant update non existing token')
+        logging.error(f'token for account_uid {account_id} does not exist')
+        raise TypeError(f'token for account_uid {account_id} does not exist')
 
     auth_refresh_token_payload = AuthTokenRefreshPayload(
         app_credentials.client_id, app_credentials.client_secret, db_token['refresh_token'])

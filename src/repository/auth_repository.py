@@ -57,6 +57,11 @@ async def check_if_the_client_exist(client_uid: uuid.uuid4) -> bool:
     return False if not bool_list else True
 
 
+async def check_if_the_account_exist(account_uid: uuid.uuid4) -> bool:
+    bool_list = await select(""" SELECT 1 FROM authentication.account WHERE account_uid = $1 """, account_uid)
+    return False if not bool_list else True
+
+
 async def select_app_credentials() -> AppCredentials:
     db_records = await select(""" SELECT client_id, client_secret FROM authentication.app 
     WHERE app_uid = 'f3235a6e-1140-4c14-8350-aad2be7aee18' """)

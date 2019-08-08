@@ -1,4 +1,5 @@
 import asyncio
+import logging
 import uuid
 from src.client.client_api import get
 from src.repository.auth_repository import select_auth_token, select_all_client_accounts
@@ -14,6 +15,7 @@ async def balance_from_one_bank(account_uid: uuid.uuid4) -> dict:
     #  TODO: get the token again (this is shitty) deal with it later
     db_records = await select_auth_token(account_uid)
     if db_records is None:
+        logging.error(f'auth token for account {account_uid} does not exis')
         raise TypeError(f'auth token for account {account_uid} does not exist')
     token = db_records[0]['access_token']
     tasks = [get(url=f'{accounts_endpoint}/{account["account_id"]}/balance',
